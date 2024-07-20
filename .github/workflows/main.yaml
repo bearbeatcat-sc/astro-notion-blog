@@ -2,9 +2,8 @@ name: deployToVercel
 
 # 1
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 22 * * *'
 
 # 2
 jobs:
