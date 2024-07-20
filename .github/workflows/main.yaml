@@ -1,0 +1,48 @@
+name: deployToVercel
+
+# 1
+on:
+  push:
+    branches:
+      - main
+
+# 2
+jobs:
+  build_and_deploy:
+
+　　 # 3
+    runs-on: ubuntu-latest
+
+    steps:
+　　　　
+　　　 # 4
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      # 5
+      - name: setup nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+　　　 # 6
+      - name: yarn install
+        run: yarn install
+
+　　　 # 7
+      - name: run tests
+        run: yarn lint
+
+　　　 # 8
+      - name: build
+        run:
+          yarn build
+
+　　　 # 9
+      - name: deploy
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          github-token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
